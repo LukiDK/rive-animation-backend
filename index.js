@@ -41,6 +41,10 @@ io.sockets.on("connection", function (socket) {
     socket.on("feed", function (data) {
         hp += 10;
 
+        if (hp > 90) {
+            hp = 100;
+        }
+
         io.sockets.emit("hp", { hp: hp });
     });
 });
