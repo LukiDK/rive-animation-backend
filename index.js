@@ -24,7 +24,9 @@ const io = new Server(server, {
 let hp = 100;
 
 setInterval(() => {
-    hp = hp - 1;
+    if (hp > 0) {
+        hp -= 1;
+    }
 }, 1000);
 
 setInterval(() => {
@@ -36,7 +38,9 @@ io.sockets.on("connection", function (socket) {
     // Server recieves a ping and responds with an emit event (sends a message to all connected sockets)
     io.sockets.emit("greet", { mesasge: "Server says hello" });
 
-    socket.on("hello", (data) => {
-        console.log("Recieved client ping: ", data);
+    socket.on("feed", function (data) {
+        hp += 10;
+
+        io.sockets.emit("hp", { hp: hp });
     });
 });
